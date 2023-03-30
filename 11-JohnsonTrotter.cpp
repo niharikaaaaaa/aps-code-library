@@ -22,7 +22,7 @@ int getMobile(vector<int> &a , vector<bool> &dir , int n)
 
   for(int i=0;i<n;i++)
   {
-    if(dir[a[i]-1] == RightToLeft && i != 0)
+    if(dir[i] == RightToLeft && i != 0)
     {
       if(a[i] > a[i-1] && a[i] > mobilePrev)
       {
@@ -30,7 +30,7 @@ int getMobile(vector<int> &a , vector<bool> &dir , int n)
         mobilePrev = mobile;
       }
     }
-    if(dir[a[i]-1] == LeftToRight && i != n-1)
+    if(dir[i] == LeftToRight && i != n-1)
     {
       if(a[i] > a[i+1] && a[i] > mobilePrev)
       {
@@ -50,7 +50,7 @@ int searchArr(vector<int> &a , int n , int mobile)
   for(int i=0;i<n;i++)
   {
     if(a[i] == mobile)
-      return i+1;
+      return i;
   }
 }
 
@@ -59,25 +59,25 @@ void printNextPerm(vector<int> &a , vector<bool> &dir , int n)
   int mobile = getMobile(a,dir,n);
   int pos = searchArr(a,n,mobile);
 
-  if(dir[a[pos-1]-1] == RightToLeft)
-  {
-    swap(a[pos-1] , a[pos-2]);
-    //swap(dir[pos-1] , dir[pos-2]);
-  }
-  else if(dir[a[pos-1]-1] == LeftToRight)
+  if(dir[pos] == RightToLeft)
   {
     swap(a[pos] , a[pos-1]);
-    //swap(dir[pos-1] , dir[pos]);
+    swap(dir[pos] , dir[pos-1]);
+  }
+  else if(dir[pos] == LeftToRight)
+  {
+    swap(a[pos] , a[pos+1]);
+    swap(dir[pos] , dir[pos+1]);
   }
 
   for(int i=0;i<n;i++)
   {
     if(a[i] > mobile)
     {
-      if(dir[a[i]-1] == LeftToRight)
-        dir[a[i]-1] = RightToLeft;
-      else if(dir[a[i]-1] == RightToLeft)
-        dir[a[i]-1] = LeftToRight;
+      if(dir[i] == LeftToRight)
+        dir[i] = RightToLeft;
+      else if(dir[i] == RightToLeft)
+        dir[i] = LeftToRight;
     }
   }
 
